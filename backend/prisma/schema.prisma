@@ -1,0 +1,442 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String
+  passwordHash  String   @map("password_hash")
+  
+  // OAuth
+  googleId      String?  @unique @map("google_id")
+  
+  // Profile
+  avatarUrl     String?  @map("avatar_url")
+  bio           String?
+  languagePreference String @default("en") @map("language_preference")
+  
+  // Typing Stats
+  typingLevel   String   @default("beginner") @map("typing_level")
+  wpmBest       Int      @default(0) @map("wpm_best")
+  accuracyAvg   Float    @default(0) @map("accuracy_avg")
+  totalTypingTime Int    @default(0) @map("total_typing_time")
+  
+  // Gamification
+  streakDays    Int      @default(0) @map("streak_days")
+  lastActivityDate DateTime? @map("last_activity_date")
+  totalPoints   Int      @default(0) @map("total_points")
+  badges        Json     @default("[]")
+  
+  // Subscription
+  isPremium     Boolean  @default(false) @map("is_premium")
+  premiumUntil  DateTime? @map("premium_until")
+  
+  // Metadata
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  lastLogin     DateTime? @map("last_login")
+  
+  // Relations
+  typingTests      TypingTest[]
+  codeTypingTests  CodeTypingTest[]
+  lessonProgress   LessonProgress[]
+  quizAttempts     QuizAttempt[]
+  certificates     Certificate[]
+  challengeAttempts ChallengeAttempt[]
+  leaderboards     Leaderboard[]
+  analyticsEvents  AnalyticsEvent[]
+  
+  @@index([email])
+  @@index([googleId])
+  @@index([typingLevel])
+  @@map("users")
+}
+
+model TypingTest {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  
+  // Test Configuration
+  testType    String   @map("test_type")
+  language    String   @default("en")
+  textContent String   @map("text_content")
+  wordCount   Int      @map("word_count")
+  
+  // Results
+  wpm         Float
+  rawWpm      Float    @map("raw_wpm")
+  accuracy    Float
+  errors      Int      @default(0)
+  timeTaken   Int      @map("time_taken")
+  
+  // Error Analysis
+  errorHeatmap Json?   @map("error_heatmap")
+  missedWords  String[] @map("missed_words")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@index([wpm])
+  @@map("typing_tests")
+}
+
+model CodeTypingTest {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  
+  // Code Configuration
+  language    String
+  difficulty  String   @default("beginner")
+  codeSnippet String   @map("code_snippet")
+  codeLength  Int      @map("code_length")
+  
+  // Results
+  wpm         Float
+  accuracy    Float
+  syntaxErrors Int     @default(0) @map("syntax_errors")
+  completionTime Int   @map("completion_time")
+  
+  // Code-specific Metrics
+  indentationAccuracy Float? @map("indentation_accuracy")
+  bracketMatchingScore Float? @map("bracket_matching_score")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([language])
+  @@index([difficulty])
+  @@map("code_typing_tests")
+}
+
+model Lesson {
+  id          String   @id @default(uuid())
+  
+  // Content
+  title       String
+  slug        String   @unique
+  description String?
+  content     String
+  
+  // Organization
+  category    String
+  language    String?
+  difficulty  String   @default("beginner")
+  estimatedTime Int?   @map("estimated_time")
+  orderIndex  Int      @default(0) @map("order_index")
+  
+  // Unlock Requirements
+  unlockRequirement Json? @map("unlock_requirement")
+  isPremium   Boolean  @default(false) @map("is_premium")
+  
+  // SEO
+  metaTitle   String?  @map("meta_title")
+  metaDescription String? @map("meta_description")
+  keywords    String[]
+  
+  // Engagement
+  viewsCount  Int      @default(0) @map("views_count")
+  completionCount Int  @default(0) @map("completion_count")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  progress    LessonProgress[]
+  
+  @@index([slug])
+  @@index([category])
+  @@index([difficulty])
+  @@map("lessons")
+}
+
+model LessonProgress {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  lessonId    String   @map("lesson_id")
+  
+  // Progress
+  status      String   @default("not_started")
+  progressPercentage Int @default(0) @map("progress_percentage")
+  timeSpent   Int      @default(0) @map("time_spent")
+  
+  // Metadata
+  startedAt   DateTime? @map("started_at")
+  completedAt DateTime? @map("completed_at")
+  lastAccessed DateTime @default(now()) @map("last_accessed")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+  @@map("lesson_progress")
+}
+
+model Quiz {
+  id          String   @id @default(uuid())
+  
+  // Content
+  title       String
+  slug        String   @unique
+  description String?
+  
+  // Organization
+  category    String
+  subject     String?
+  difficulty  String   @default("medium")
+  
+  // Configuration
+  questions   Json
+  totalQuestions Int   @map("total_questions")
+  timeLimit   Int?     @map("time_limit")
+  passingScore Int     @default(60) @map("passing_score")
+  
+  // Access
+  isPremium   Boolean  @default(false) @map("is_premium")
+  unlockRequirement Json? @map("unlock_requirement")
+  
+  // SEO
+  metaTitle   String?  @map("meta_title")
+  metaDescription String? @map("meta_description")
+  
+  // Engagement
+  attemptsCount Int    @default(0) @map("attempts_count")
+  avgScore    Float?   @map("avg_score")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  attempts    QuizAttempt[]
+  
+  @@index([slug])
+  @@index([category])
+  @@index([subject])
+  @@map("quizzes")
+}
+
+model QuizAttempt {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  quizId      String   @map("quiz_id")
+  
+  // Results
+  score       Float
+  correctAnswers Int   @map("correct_answers")
+  totalQuestions Int   @map("total_questions")
+  timeTaken   Int      @map("time_taken")
+  
+  // Details
+  answers     Json
+  passed      Boolean  @default(false)
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([quizId])
+  @@index([createdAt])
+  @@map("quiz_attempts")
+}
+
+model Certificate {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  
+  // Certificate Details
+  type        String
+  title       String
+  description String?
+  
+  // Achievement Data
+  achievementData Json? @map("achievement_data")
+  
+  // File
+  certificateUrl String? @map("certificate_url")
+  shareToken  String?  @unique @map("share_token")
+  
+  // Metadata
+  issueDate   DateTime @default(now()) @map("issue_date")
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([shareToken])
+  @@index([type])
+  @@map("certificates")
+}
+
+model DailyChallenge {
+  id          String   @id @default(uuid())
+  
+  // Challenge Details
+  date        DateTime @unique
+  challengeType String @map("challenge_type")
+  title       String
+  description String?
+  
+  // Content
+  content     Json
+  difficulty  String   @default("medium")
+  
+  // Rewards
+  rewardPoints Int     @default(10) @map("reward_points")
+  
+  // Stats
+  participantsCount Int @default(0) @map("participants_count")
+  completionCount Int   @default(0) @map("completion_count")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  attempts    ChallengeAttempt[]
+  
+  @@index([date])
+  @@index([challengeType])
+  @@map("daily_challenges")
+}
+
+model ChallengeAttempt {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  challengeId String   @map("challenge_id")
+  
+  // Results
+  completed   Boolean  @default(false)
+  score       Float?
+  timeTaken   Int?     @map("time_taken")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   DailyChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, challengeId])
+  @@index([userId])
+  @@index([challengeId])
+  @@map("challenge_attempts")
+}
+
+model Leaderboard {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  
+  // Leaderboard Type
+  type        String
+  period      String
+  
+  // Score
+  score       Float
+  rank        Int?
+  
+  // Metadata
+  periodStart DateTime? @map("period_start")
+  periodEnd   DateTime? @map("period_end")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([type, period])
+  @@index([userId])
+  @@index([rank])
+  @@map("leaderboards")
+}
+
+model SeoPage {
+  id          String   @id @default(uuid())
+  
+  // Page Details
+  slug        String   @unique
+  title       String
+  metaDescription String? @map("meta_description")
+  keywords    String[]
+  
+  // Content
+  content     String?
+  templateType String? @map("template_type")
+  
+  // Configuration
+  config      Json?
+  
+  // SEO
+  canonicalUrl String? @map("canonical_url")
+  ogImage     String?  @map("og_image")
+  
+  // Analytics
+  viewsCount  Int      @default(0) @map("views_count")
+  bounceRate  Float?   @map("bounce_rate")
+  avgTimeOnPage Int?   @map("avg_time_on_page")
+  
+  // Status
+  isPublished Boolean  @default(true) @map("is_published")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  @@index([slug])
+  @@index([templateType])
+  @@map("seo_pages")
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  userId      String?  @map("user_id")
+  
+  // Event Details
+  eventType   String   @map("event_type")
+  eventData   Json?    @map("event_data")
+  
+  // Session
+  sessionId   String?  @map("session_id")
+  
+  // Context
+  pageUrl     String?  @map("page_url")
+  referrer    String?
+  userAgent   String?  @map("user_agent")
+  ipAddress   String?  @map("ip_address")
+  
+  // Metadata
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([userId])
+  @@index([eventType])
+  @@index([createdAt])
+  @@index([sessionId])
+  @@map("analytics_events")
+}
