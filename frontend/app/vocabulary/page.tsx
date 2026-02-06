@@ -99,29 +99,13 @@ export default function VocabularyQuizPage() {
     setGameState('quiz');
   };
 
-  // Timer
-  useEffect(() => {
-    if (gameState !== 'quiz' || showAnswer) return;
-    
-    if (timeLeft <= 0) {
-      handleAnswer(-1); // Time's up
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft(prev => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [gameState, timeLeft, showAnswer]);
-
-  const handleAnswer = (answerIndex: number) => {
+  const handleAnswer = useCallback((answerIndex: number) => {
     if (showAnswer) return;
     
     setSelectedAnswer(answerIndex);
     setShowAnswer(true);
     
-    const isCorrect = answerIndex === questions[currentQuestion].correctAnswer;
+    const isCorrect = answerIndex === questions[currentQuestion]?.correctAnswer;
     if (isCorrect) {
       setScore(prev => prev + 1);
     }
@@ -138,7 +122,23 @@ export default function VocabularyQuizPage() {
         setGameState('results');
       }
     }, 2000);
-  };
+  }, [showAnswer, questions, currentQuestion]);
+
+  // Timer
+  useEffect(() => {
+    if (gameState !== 'quiz' || showAnswer) return;
+    
+    if (timeLeft <= 0) {
+      handleAnswer(-1); // Time's up
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [gameState, timeLeft, showAnswer, handleAnswer]);
 
   const getCategoryInfo = (cat: Category) => {
     const info = {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 
 interface Question {
@@ -61,22 +61,12 @@ export default function ChemistryQuizPage() {
     setGameState('quiz');
   };
 
-  useEffect(() => {
-    if (gameState !== 'quiz' || showAnswer) return;
-    if (timeLeft <= 0) {
-      handleAnswer(-1);
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
-    return () => clearInterval(timer);
-  }, [gameState, timeLeft, showAnswer]);
-
-  const handleAnswer = (answerIndex: number) => {
+  const handleAnswer = useCallback((answerIndex: number) => {
     if (showAnswer) return;
     setSelectedAnswer(answerIndex);
     setShowAnswer(true);
     
-    const isCorrect = answerIndex === questions[currentQuestion].correctAnswer;
+    const isCorrect = answerIndex === questions[currentQuestion]?.correctAnswer;
     if (isCorrect) setScore(prev => prev + 1);
     setAnswers(prev => [...prev, { correct: isCorrect }]);
 
@@ -90,7 +80,17 @@ export default function ChemistryQuizPage() {
         setGameState('results');
       }
     }, 2500);
-  };
+  }, [showAnswer, questions, currentQuestion]);
+
+  useEffect(() => {
+    if (gameState !== 'quiz' || showAnswer) return;
+    if (timeLeft <= 0) {
+      handleAnswer(-1);
+      return;
+    }
+    const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+    return () => clearInterval(timer);
+  }, [gameState, timeLeft, showAnswer, handleAnswer]);
 
   return (
     <div className="min-h-screen bg-dark-950">
