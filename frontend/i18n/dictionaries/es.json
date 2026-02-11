@@ -1,0 +1,141 @@
+{
+  "common": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "register": "Registrarse",
+    "getStarted": "Comenzar",
+    "startNow": "Empezar ahora",
+    "learnMore": "Saber más",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "finish": "Finalizar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  },
+  "nav": {
+    "home": "Inicio",
+    "lessons": "Lecciones",
+    "typing": "Test de Mecanografía",
+    "codeTyping": "Escribir Código",
+    "quiz": "Cuestionario",
+    "practice": "Práctica",
+    "leaderboard": "Tabla de Clasificación",
+    "achievements": "Logros",
+    "about": "Acerca de",
+    "contact": "Contacto"
+  },
+  "home": {
+    "heroTitle": "Domina",
+    "heroTyping": "Mecanografía",
+    "heroAnd": "y",
+    "heroProgramming": "Programación",
+    "heroTagline": "en un Solo Lugar",
+    "heroDescription": "De principiante a profesional. Aprende mecanografía, programación de código y aprueba tus exámenes con nuestra plataforma de aprendizaje gamificada.",
+    "startTypingTest": "Comenzar Test de Mecanografía",
+    "tryCodeTyping": "Probar Escribir Código",
+    "joinedLearners": "Únete a más de 10,000 estudiantes en todo el mundo",
+    "stats": {
+      "activeUsers": "Usuarios Activos",
+      "testsCompleted": "Tests Completados",
+      "lessons": "Lecciones",
+      "avgWPMGain": "Ganancia Promedio de PPM"
+    },
+    "features": {
+      "title": "Todo lo que Necesitas para",
+      "succeed": "Triunfar",
+      "subtitle": "Un ecosistema de aprendizaje completo diseñado para llevarte de principiante a listo para el trabajo",
+      "typing": {
+        "title": "Práctica de Mecanografía",
+        "description": "Tests de mecanografía progresivos con PPM en tiempo real, seguimiento de precisión y análisis de errores"
+      },
+      "codeTyping": {
+        "title": "Escribir Código",
+        "description": "Escribe código real en C, C++, Python, Java, JavaScript con resaltado de sintaxis"
+      },
+      "lessons": {
+        "title": "Lecciones de Programación",
+        "description": "Ruta de aprendizaje estructurada desde lo básico hasta lo avanzado con ejemplos prácticos"
+      },
+      "quizzes": {
+        "title": "Cuestionarios y Exámenes",
+        "description": "MCQs de SSC, HSC, BSc y cuestionarios de programación con análisis detallados"
+      },
+      "certificates": {
+        "title": "Certificados",
+        "description": "Gana certificados que puedes compartir para mostrar tus logros"
+      },
+      "leaderboards": {
+        "title": "Tablas de Clasificación",
+        "description": "Compite globalmente y en Bangladesh. Sigue tu progreso con rachas"
+      }
+    },
+    "journey": {
+      "title": "Tu Viaje de Aprendizaje",
+      "subtitle": "Sigue nuestro camino probado hacia la maestría",
+      "step1": {
+        "title": "Comenzar a Escribir",
+        "description": "Comienza con pruebas básicas de mecanografía para desarrollar velocidad y precisión"
+      },
+      "step2": {
+        "title": "Escribir Código",
+        "description": "Progresa a escribir fragmentos de código reales en tu lenguaje favorito"
+      },
+      "step3": {
+        "title": "Aprender Programación",
+        "description": "Desbloquea lecciones y domina conceptos de programación"
+      },
+      "step4": {
+        "title": "Obtener Certificación",
+        "description": "Gana certificados y muestra tus habilidades"
+      }
+    },
+    "cta": {
+      "title": "¿Listo para Comenzar tu Viaje?",
+      "subtitle": "Únete a miles de estudiantes que mejoran sus habilidades de mecanografía y programación cada día",
+      "button": "Comenzar Gratis"
+    }
+  },
+  "lessons": {
+    "title": "Lecciones de Programación",
+    "subtitle": "Domina la programación desde lo básico hasta lo avanzado",
+    "allLessons": "Todas las Lecciones",
+    "search": "Buscar lecciones...",
+    "categories": {
+      "all": "Todas",
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "difficulty": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "tabs": {
+      "learn": "Aprender",
+      "practice": "Práctica de Código",
+      "quiz": "Cuestionario"
+    },
+    "quiz": {
+      "submitAnswers": "Enviar Respuestas",
+      "quizCompleted": "¡Cuestionario Completado!",
+      "score": "Puntuación",
+      "retakeQuiz": "Repetir Cuestionario"
+    }
+  },
+  "footer": {
+    "description": "Domina la mecanografía y la programación con nuestra plataforma de aprendizaje integral.",
+    "features": "Características",
+    "resources": "Recursos",
+    "company": "Empresa",
+    "copyright": "© 2026 EduVerse Hub. Todos los derechos reservados."
+  }
+}

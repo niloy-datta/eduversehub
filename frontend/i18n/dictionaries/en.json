@@ -1,0 +1,141 @@
+{
+  "common": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Sign Up",
+    "getStarted": "Get Started",
+    "startNow": "Start Now",
+    "learnMore": "Learn More",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "next": "Next",
+    "previous": "Previous",
+    "finish": "Finish",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "nav": {
+    "home": "Home",
+    "lessons": "Lessons",
+    "typing": "Typing Test",
+    "codeTyping": "Code Typing",
+    "quiz": "Quiz",
+    "practice": "Practice",
+    "leaderboard": "Leaderboard",
+    "achievements": "Achievements",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "Master",
+    "heroTyping": "Typing",
+    "heroAnd": "&",
+    "heroProgramming": "Programming",
+    "heroTagline": "in One Place",
+    "heroDescription": "From beginner to pro. Learn typing, code typing, programming, and ace your exams with our gamified learning platform.",
+    "startTypingTest": "Start Typing Test",
+    "tryCodeTyping": "Try Code Typing",
+    "joinedLearners": "Join 10,000+ learners worldwide",
+    "stats": {
+      "activeUsers": "Active Users",
+      "testsCompleted": "Tests Completed",
+      "lessons": "Lessons",
+      "avgWPMGain": "Avg WPM Gain"
+    },
+    "features": {
+      "title": "Everything You Need to",
+      "succeed": "Succeed",
+      "subtitle": "A complete learning ecosystem designed to take you from beginner to job-ready",
+      "typing": {
+        "title": "Typing Practice",
+        "description": "Progressive typing tests with real-time WPM, accuracy tracking, and error analysis"
+      },
+      "codeTyping": {
+        "title": "Code Typing",
+        "description": "Type real code in C, C++, Python, Java, JavaScript with syntax highlighting"
+      },
+      "lessons": {
+        "title": "Programming Lessons",
+        "description": "Structured learning path from basics to advanced with hands-on examples"
+      },
+      "quizzes": {
+        "title": "Quizzes & Exams",
+        "description": "SSC, HSC, BSc MCQs and programming quizzes with detailed analytics"
+      },
+      "certificates": {
+        "title": "Certificates",
+        "description": "Earn shareable certificates to showcase your achievements"
+      },
+      "leaderboards": {
+        "title": "Leaderboards",
+        "description": "Compete globally and in Bangladesh. Track your progress with streaks"
+      }
+    },
+    "journey": {
+      "title": "Your Learning Journey",
+      "subtitle": "Follow our proven path to mastery",
+      "step1": {
+        "title": "Start Typing",
+        "description": "Begin with basic typing tests to build speed and accuracy"
+      },
+      "step2": {
+        "title": "Code Typing",
+        "description": "Progress to typing real code snippets in your favorite language"
+      },
+      "step3": {
+        "title": "Learn Programming",
+        "description": "Unlock lessons and master programming concepts"
+      },
+      "step4": {
+        "title": "Get Certified",
+        "description": "Earn certificates and showcase your skills"
+      }
+    },
+    "cta": {
+      "title": "Ready to Start Your Journey?",
+      "subtitle": "Join thousands of learners improving their typing and programming skills every day",
+      "button": "Get Started for Free"
+    }
+  },
+  "lessons": {
+    "title": "Programming Lessons",
+    "subtitle": "Master programming from basics to advanced",
+    "allLessons": "All Lessons",
+    "search": "Search lessons...",
+    "categories": {
+      "all": "All",
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "difficulty": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "tabs": {
+      "learn": "Learn",
+      "practice": "Code Practice",
+      "quiz": "Quiz"
+    },
+    "quiz": {
+      "submitAnswers": "Submit Answers",
+      "quizCompleted": "Quiz Completed!",
+      "score": "Score",
+      "retakeQuiz": "Retake Quiz"
+    }
+  },
+  "footer": {
+    "description": "Master typing and programming with our comprehensive learning platform.",
+    "features": "Features",
+    "resources": "Resources",
+    "company": "Company",
+    "copyright": "© 2026 EduVerse Hub. All rights reserved."
+  }
+}

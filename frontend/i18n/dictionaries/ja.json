@@ -1,0 +1,141 @@
+{
+  "common": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "register": "登録",
+    "getStarted": "始める",
+    "startNow": "今すぐ始める",
+    "learnMore": "詳細を見る",
+    "dashboard": "ダッシュボード",
+    "profile": "プロフィール",
+    "settings": "設定",
+    "close": "閉じる",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "submit": "送信",
+    "next": "次へ",
+    "previous": "前へ",
+    "finish": "完了",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功"
+  },
+  "nav": {
+    "home": "ホーム",
+    "lessons": "レッスン",
+    "typing": "タイピングテスト",
+    "codeTyping": "コードタイピング",
+    "quiz": "クイズ",
+    "practice": "練習",
+    "leaderboard": "リーダーボード",
+    "achievements": "実績",
+    "about": "概要",
+    "contact": "お問い合わせ"
+  },
+  "home": {
+    "heroTitle": "マスターする",
+    "heroTyping": "タイピング",
+    "heroAnd": "と",
+    "heroProgramming": "プログラミング",
+    "heroTagline": "を一つの場所で",
+    "heroDescription": "初心者からプロまで。ゲーム化された学習プラットフォームでタイピング、コードタイピング、プログラミングを学び、試験に合格しましょう。",
+    "startTypingTest": "タイピングテストを始める",
+    "tryCodeTyping": "コードタイピングを試す",
+    "joinedLearners": "世界中の10,000人以上の学習者に参加",
+    "stats": {
+      "activeUsers": "アクティブユーザー",
+      "testsCompleted": "完了したテスト",
+      "lessons": "レッスン",
+      "avgWPMGain": "平均WPM向上"
+    },
+    "features": {
+      "title": "成功に必要な",
+      "succeed": "すべて",
+      "subtitle": "初心者から仕事の準備ができた状態まで導く完全な学習エコシステム",
+      "typing": {
+        "title": "タイピング練習",
+        "description": "リアルタイムWPM、精度追跡、エラー分析を備えた段階的なタイピングテスト"
+      },
+      "codeTyping": {
+        "title": "コードタイピング",
+        "description": "構文強調表示付きでC、C++、Python、Java、JavaScriptの実際のコードを入力"
+      },
+      "lessons": {
+        "title": "プログラミングレッスン",
+        "description": "実践的な例を使用した基礎から上級までの構造化された学習パス"
+      },
+      "quizzes": {
+        "title": "クイズと試験",
+        "description": "詳細な分析を備えたSSC、HSC、BSc MCQsとプログラミングクイズ"
+      },
+      "certificates": {
+        "title": "証明書",
+        "description": "共有可能な証明書を獲得して、あなたの成果を披露"
+      },
+      "leaderboards": {
+        "title": "リーダーボード",
+        "description": "グローバルおよびバングラデシュで競争。ストリークで進捗を追跡"
+      }
+    },
+    "journey": {
+      "title": "あなたの学習の旅",
+      "subtitle": "実証済みのマスタリーへの道をたどる",
+      "step1": {
+        "title": "タイピングを始める",
+        "description": "速度と精度を構築するために基本的なタイピングテストから始める"
+      },
+      "step2": {
+        "title": "コードタイピング",
+        "description": "お気に入りの言語で実際のコードスニペットを入力することに進む"
+      },
+      "step3": {
+        "title": "プログラミングを学ぶ",
+        "description": "レッスンをアンロックしてプログラミングの概念をマスター"
+      },
+      "step4": {
+        "title": "認定を取得",
+        "description": "証明書を獲得してスキルを披露"
+      }
+    },
+    "cta": {
+      "title": "旅を始める準備はできましたか？",
+      "subtitle": "毎日タイピングとプログラミングのスキルを向上させている何千人もの学習者に参加",
+      "button": "無料で始める"
+    }
+  },
+  "lessons": {
+    "title": "プログラミングレッスン",
+    "subtitle": "基礎から上級までプログラミングをマスター",
+    "allLessons": "すべてのレッスン",
+    "search": "レッスンを検索...",
+    "categories": {
+      "all": "すべて",
+      "beginner": "初心者",
+      "intermediate": "中級",
+      "advanced": "上級"
+    },
+    "difficulty": {
+      "beginner": "初心者",
+      "intermediate": "中級",
+      "advanced": "上級"
+    },
+    "tabs": {
+      "learn": "学ぶ",
+      "practice": "コード練習",
+      "quiz": "クイズ"
+    },
+    "quiz": {
+      "submitAnswers": "回答を送信",
+      "quizCompleted": "クイズ完了！",
+      "score": "スコア",
+      "retakeQuiz": "クイズを再受験"
+    }
+  },
+  "footer": {
+    "description": "包括的な学習プラットフォームでタイピングとプログラミングをマスター。",
+    "features": "機能",
+    "resources": "リソース",
+    "company": "会社",
+    "copyright": "© 2026 EduVerse Hub。無断転載を禁じます。"
+  }
+}

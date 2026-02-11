@@ -1,0 +1,141 @@
+{
+  "common": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "register": "S'inscrire",
+    "getStarted": "Commencer",
+    "startNow": "Démarrer maintenant",
+    "learnMore": "En savoir plus",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "finish": "Terminer",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès"
+  },
+  "nav": {
+    "home": "Accueil",
+    "lessons": "Leçons",
+    "typing": "Test de Frappe",
+    "codeTyping": "Frappe de Code",
+    "quiz": "Quiz",
+    "practice": "Pratique",
+    "leaderboard": "Classement",
+    "achievements": "Réalisations",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "Maîtrisez",
+    "heroTyping": "la Frappe",
+    "heroAnd": "et",
+    "heroProgramming": "la Programmation",
+    "heroTagline": "en un Seul Endroit",
+    "heroDescription": "Du débutant au pro. Apprenez la frappe, le code, la programmation et réussissez vos examens avec notre plateforme d'apprentissage gamifiée.",
+    "startTypingTest": "Commencer le Test de Frappe",
+    "tryCodeTyping": "Essayer la Frappe de Code",
+    "joinedLearners": "Rejoignez plus de 10 000 apprenants dans le monde",
+    "stats": {
+      "activeUsers": "Utilisateurs Actifs",
+      "testsCompleted": "Tests Complétés",
+      "lessons": "Leçons",
+      "avgWPMGain": "Gain Moyen de MPM"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour",
+      "succeed": "Réussir",
+      "subtitle": "Un écosystème d'apprentissage complet conçu pour vous faire passer de débutant à prêt pour l'emploi",
+      "typing": {
+        "title": "Pratique de Frappe",
+        "description": "Tests de frappe progressifs avec MPM en temps réel, suivi de précision et analyse des erreurs"
+      },
+      "codeTyping": {
+        "title": "Frappe de Code",
+        "description": "Tapez du vrai code en C, C++, Python, Java, JavaScript avec la coloration syntaxique"
+      },
+      "lessons": {
+        "title": "Leçons de Programmation",
+        "description": "Parcours d'apprentissage structuré des bases aux niveaux avancés avec des exemples pratiques"
+      },
+      "quizzes": {
+        "title": "Quiz et Examens",
+        "description": "MCQs de SSC, HSC, BSc et quiz de programmation avec des analyses détaillées"
+      },
+      "certificates": {
+        "title": "Certificats",
+        "description": "Gagnez des certificats partageables pour mettre en valeur vos réalisations"
+      },
+      "leaderboards": {
+        "title": "Classements",
+        "description": "Concourez à l'échelle mondiale et au Bangladesh. Suivez vos progrès avec des séries"
+      }
+    },
+    "journey": {
+      "title": "Votre Parcours d'Apprentissage",
+      "subtitle": "Suivez notre chemin éprouvé vers la maîtrise",
+      "step1": {
+        "title": "Commencer la Frappe",
+        "description": "Commencez par des tests de frappe de base pour développer vitesse et précision"
+      },
+      "step2": {
+        "title": "Frappe de Code",
+        "description": "Progressez vers la frappe de vrais extraits de code dans votre langage préféré"
+      },
+      "step3": {
+        "title": "Apprendre la Programmation",
+        "description": "Déverrouillez des leçons et maîtrisez les concepts de programmation"
+      },
+      "step4": {
+        "title": "Obtenir une Certification",
+        "description": "Gagnez des certificats et montrez vos compétences"
+      }
+    },
+    "cta": {
+      "title": "Prêt à Commencer Votre Parcours ?",
+      "subtitle": "Rejoignez des milliers d'apprenants qui améliorent leurs compétences en frappe et en programmation chaque jour",
+      "button": "Commencer Gratuitement"
+    }
+  },
+  "lessons": {
+    "title": "Leçons de Programmation",
+    "subtitle": "Maîtrisez la programmation des bases aux niveaux avancés",
+    "allLessons": "Toutes les Leçons",
+    "search": "Rechercher des leçons...",
+    "categories": {
+      "all": "Toutes",
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé"
+    },
+    "difficulty": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé"
+    },
+    "tabs": {
+      "learn": "Apprendre",
+      "practice": "Pratique de Code",
+      "quiz": "Quiz"
+    },
+    "quiz": {
+      "submitAnswers": "Soumettre les Réponses",
+      "quizCompleted": "Quiz Terminé !",
+      "score": "Score",
+      "retakeQuiz": "Refaire le Quiz"
+    }
+  },
+  "footer": {
+    "description": "Maîtrisez la frappe et la programmation avec notre plateforme d'apprentissage complète.",
+    "features": "Fonctionnalités",
+    "resources": "Ressources",
+    "company": "Entreprise",
+    "copyright": "© 2026 EduVerse Hub. Tous droits réservés."
+  }
+}

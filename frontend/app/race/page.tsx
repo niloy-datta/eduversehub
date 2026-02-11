@@ -21,7 +21,7 @@ const sampleTexts = [
 export default function RacePage() {
   const [gameState, setGameState] = useState<'lobby' | 'countdown' | 'racing' | 'finished'>('lobby');
   const [countdown, setCountdown] = useState(3);
-  const [text] = useState(sampleTexts[Math.floor(Math.random() * sampleTexts.length)]);
+  const [text] = useState(() => sampleTexts[Math.floor(Math.random() * sampleTexts.length)]);
   const [userInput, setUserInput] = useState('');
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);

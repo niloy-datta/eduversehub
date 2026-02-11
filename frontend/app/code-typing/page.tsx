@@ -299,7 +299,7 @@ export default function CodeTypingPage() {
         <div className="container-custom py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all group-hover:scale-110" style={{background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', boxShadow: '0 0 20px rgba(14, 165, 233, 0.5)'}}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all group-hover:scale-110 brand-mark">
                 <span className="text-xl font-bold text-white">E</span>
               </div>
               <span className="text-xl font-display font-bold text-white group-hover:text-primary-400 transition-colors">
@@ -346,10 +346,9 @@ export default function CodeTypingPage() {
                 }}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
                   language === lang
-                    ? 'text-white'
+                    ? 'language-pill-active'
                     : 'text-dark-400 hover:text-white hover:bg-dark-800'
                 }`}
-                style={language === lang ? {background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', boxShadow: '0 0 20px rgba(14, 165, 233, 0.5)'} : {}}
               >
                 <span>{languageLabels[lang].icon}</span>
                 <span>{languageLabels[lang].name}</span>
@@ -469,6 +468,7 @@ export default function CodeTypingPage() {
               autoCapitalize="off"
               autoCorrect="off"
               spellCheck={false}
+              aria-label="Typing input"
             />
 
             {/* Code display */}
@@ -496,11 +496,8 @@ export default function CodeTypingPage() {
 
             {/* Progress bar */}
             {isStarted && (
-              <div className="mt-4 progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${(currentIndex / code.length) * 100}%` }}
-                />
+              <div className="mt-4">
+                <progress className="progress-meter" value={currentIndex} max={code.length} />
               </div>
             )}
           </div>

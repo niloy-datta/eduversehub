@@ -17,6 +17,7 @@ interface LessonCategory {
     screens: number;
     completed?: boolean;
     locked?: boolean;
+    href?: string;
   }[];
 }
 
@@ -75,6 +76,114 @@ const categories: LessonCategory[] = [
       { id: 18, title: 'Punctuation', titleBn: 'যতিচিহ্ন', description: 'Periods, commas, and more', screens: 12, locked: true },
       { id: 19, title: 'Speed Building', titleBn: 'স্পিড বিল্ডিং', description: 'Increase your WPM', screens: 20, locked: true },
       { id: 20, title: 'Full Keyboard Test', titleBn: 'সম্পূর্ণ কীবোর্ড', description: 'Ultimate typing challenge', screens: 25, locked: true },
+    ],
+  },
+  {
+    id: 'programming',
+    title: 'Programming',
+    titleBn: 'প্রোগ্রামিং',
+    icon: '💻',
+    color: 'from-blue-500 to-indigo-700',
+    lessons: [
+      { 
+        id: 100, 
+        title: 'Java Masterclass: Zero to Hero', 
+        titleBn: 'জাভা মাস্টারক্লাস', 
+        description: 'Complete Java programming guide from scratch.', 
+        screens: 50, 
+        href: '/lessons/java',
+        completed: false
+      },
+      { 
+        id: 101, 
+        title: 'Spring Boot: Enterprise Ready', 
+        titleBn: 'স্প্রিং বুট ফ্রেমওয়ার্ক', 
+        description: 'Build production-ready applications with Spring Boot.', 
+        screens: 40, 
+        href: '/lessons/spring-boot',
+        completed: false
+      },
+      { 
+        id: 102, 
+        title: 'JavaScript: The Web Language', 
+        titleBn: 'জাভাস্ক্রিপ্ট', 
+        description: 'Master the language of the web.', 
+        screens: 30, 
+        href: '/lessons/javascript',
+        completed: false
+      },
+      { 
+        id: 103, 
+        title: 'React: Modern UI', 
+        titleBn: 'রিয়্যাক্ট', 
+        description: 'Build interactive UIs with React.', 
+        screens: 25, 
+        href: '/lessons/react',
+        completed: false
+      },
+      { 
+        id: 104, 
+        title: 'TypeScript: Typed JS', 
+        titleBn: 'টাইপস্ক্রিপ্ট', 
+        description: 'Scale your JavaScript with types.', 
+        screens: 20, 
+        href: '/lessons/typescript',
+        completed: false
+      },
+    ],
+  },
+  {
+    id: 'dsa',
+    title: 'Data Structures',
+    titleBn: 'ডেটা স্ট্রাকচার',
+    icon: '🧩',
+    color: 'from-pink-500 to-rose-600',
+    lessons: [
+      { 
+        id: 201, 
+        title: 'DSA with Java', 
+        titleBn: 'জাভা ডিএসএ', 
+        description: 'Master algorithms and data structures using Java.', 
+        screens: 60, 
+        href: '/lessons/dsa-java',
+        completed: false
+      },
+    ],
+  },
+  {
+    id: 'databases',
+    title: 'Databases',
+    titleBn: 'ডেটাবেস',
+    icon: '🗄️',
+    color: 'from-amber-400 to-orange-600',
+    lessons: [
+      { 
+        id: 301, 
+        title: 'MySQL: Relational DB', 
+        titleBn: 'মাইএসকিউএল', 
+        description: 'Learn SQL and relational database design.', 
+        screens: 25, 
+        href: '/lessons/mysql',
+        completed: false
+      },
+      { 
+        id: 302, 
+        title: 'PostgreSQL: Advanced SQL', 
+        titleBn: 'পোস্টগ্রেএসকিউএল', 
+        description: 'Advanced relational database features.', 
+        screens: 25, 
+        href: '/lessons/postgresql',
+        completed: false
+      },
+      { 
+        id: 303, 
+        title: 'MongoDB: NoSQL', 
+        titleBn: 'মঙ্গোডিবি', 
+        description: 'Modern document-based NoSQL database.', 
+        screens: 25, 
+        href: '/lessons/mongodb',
+        completed: false
+      },
     ],
   },
 ];
@@ -161,7 +270,7 @@ export default function LessonsPage() {
             {category.lessons.map((lesson, index) => (
               <Link
                 key={lesson.id}
-                href={lesson.locked ? '#' : '/lessons/practice'}
+                href={lesson.locked ? '#' : (lesson.href || '/lessons/practice')}
                 className={`group relative bg-white rounded-2xl p-6 shadow-lg transition-all ${
                   lesson.locked 
                     ? 'opacity-50 cursor-not-allowed' 

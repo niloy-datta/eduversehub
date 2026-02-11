@@ -110,22 +110,6 @@ export default function SubjectQuizPage() {
     setGameState('quiz');
   };
 
-  // Timer
-  useEffect(() => {
-    if (gameState !== 'quiz' || showAnswer) return;
-    
-    if (timeLeft <= 0) {
-      handleAnswer(-1);
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft(prev => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [gameState, timeLeft, showAnswer]);
-
   const handleAnswer = (answerIndex: number) => {
     if (showAnswer) return;
     
@@ -149,6 +133,24 @@ export default function SubjectQuizPage() {
       }
     }, 3000);
   };
+
+  // Timer
+  useEffect(() => {
+    if (gameState !== 'quiz' || showAnswer) return;
+    
+    if (timeLeft <= 0) {
+      handleAnswer(-1);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [gameState, timeLeft, showAnswer]);
+    
+
 
   return (
     <div className="min-h-screen bg-dark-950">

@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -15,6 +15,10 @@ model User {
   email         String   @unique
   name          String
   passwordHash  String   @map("password_hash")
+  
+  // Password Reset
+  passwordResetToken String? @map("password_reset_token")
+  passwordResetExpires DateTime? @map("password_reset_expires")
   
   // OAuth
   googleId      String?  @unique @map("google_id")
@@ -27,6 +31,7 @@ model User {
   // Typing Stats
   typingLevel   String   @default("beginner") @map("typing_level")
   wpmBest       Int      @default(0) @map("wpm_best")
+  wpmAvg        Float    @default(0) @map("wpm_avg")
   accuracyAvg   Float    @default(0) @map("accuracy_avg")
   totalTypingTime Int    @default(0) @map("total_typing_time")
   
@@ -34,7 +39,8 @@ model User {
   streakDays    Int      @default(0) @map("streak_days")
   lastActivityDate DateTime? @map("last_activity_date")
   totalPoints   Int      @default(0) @map("total_points")
-  badges        Json     @default("[]")
+  badges        Json     @default("[]") // Legacy, keeping for compatibility if needed
+  awardedBadges Badge[]  @relation("UserBadges")
   
   // Subscription
   isPremium     Boolean  @default(false) @map("is_premium")
@@ -46,14 +52,14 @@ model User {
   lastLogin     DateTime? @map("last_login")
   
   // Relations
-  typingTests      TypingTest[]
-  codeTypingTests  CodeTypingTest[]
-  lessonProgress   LessonProgress[]
-  quizAttempts     QuizAttempt[]
-  certificates     Certificate[]
+  typingTests       TypingTest[]
+  codeTypingTests   CodeTypingTest[]
+  lessonProgress    LessonProgress[]
+  quizAttempts      QuizAttempt[]
+  certificates      Certificate[]
   challengeAttempts ChallengeAttempt[]
-  leaderboards     Leaderboard[]
-  analyticsEvents  AnalyticsEvent[]
+  leaderboards      Leaderboard[]
+  analyticsEvents   AnalyticsEvent[]
   
   @@index([email])
   @@index([googleId])
@@ -61,26 +67,39 @@ model User {
   @@map("users")
 }
 
+model Badge {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  iconUrl     String   @map("icon_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  users       User[]   @relation("UserBadges")
+
+  @@map("badges")
+}
+
 model TypingTest {
   id          String   @id @default(uuid())
   userId      String   @map("user_id")
   
   // Test Configuration
-  testType    String   @map("test_type")
+  mode        String   @default("time-60")
   language    String   @default("en")
-  textContent String   @map("text_content")
-  wordCount   Int      @map("word_count")
+  textContent String?  @map("text_content")
+  wordCount   Int?     @map("word_count")
   
   // Results
   wpm         Float
-  rawWpm      Float    @map("raw_wpm")
+  rawWpm      Float?   @map("raw_wpm")
   accuracy    Float
   errors      Int      @default(0)
-  timeTaken   Int      @map("time_taken")
+  duration    Int
+  characters  Int      @default(0)
+  timeTaken   Int?     @map("time_taken")
   
   // Error Analysis
   errorHeatmap Json?   @map("error_heatmap")
-  missedWords  String[] @map("missed_words")
+  missedWords  Json?   @map("missed_words")
   
   // Metadata
   createdAt   DateTime @default(now()) @map("created_at")
@@ -133,7 +152,8 @@ model Lesson {
   title       String
   slug        String   @unique
   description String?
-  content     String
+  content     String   @default("") // Legacy, moved to LessonSection
+  practiceCode String? @map("practice_code")
   
   // Organization
   category    String
@@ -141,7 +161,14 @@ model Lesson {
   difficulty  String   @default("beginner")
   estimatedTime Int?   @map("estimated_time")
   orderIndex  Int      @default(0) @map("order_index")
+  pointsAwarded Int    @default(50) @map("points_awarded")
   
+  // Navigation
+  prevLessonId String? @unique @map("prev_lesson_id")
+  nextLessonId String? @unique @map("next_lesson_id")
+  prevLesson   Lesson? @relation("LessonNavigation", fields: [prevLessonId], references: [id])
+  nextLessonRef Lesson? @relation("LessonNavigation") // This is needed for the self-relation
+
   // Unlock Requirements
   unlockRequirement Json? @map("unlock_requirement")
   isPremium   Boolean  @default(false) @map("is_premium")
@@ -149,7 +176,7 @@ model Lesson {
   // SEO
   metaTitle   String?  @map("meta_title")
   metaDescription String? @map("meta_description")
-  keywords    String[]
+  keywords    Json?
   
   // Engagement
   viewsCount  Int      @default(0) @map("views_count")
@@ -160,6 +187,8 @@ model Lesson {
   updatedAt   DateTime @updatedAt @map("updated_at")
   
   // Relations
+  sections    LessonSection[]
+  quiz        Quiz?
   progress    LessonProgress[]
   
   @@index([slug])
@@ -193,8 +222,23 @@ model LessonProgress {
   @@map("lesson_progress")
 }
 
+model LessonSection {
+  id        String   @id @default(uuid())
+  lessonId  String   @map("lesson_id")
+  order     Int
+  type      String   // TEXT, CODE, NOTE, LIST, IMAGE
+  title     String?
+  content   String   // Can be JSON string for lists
+  
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  @@index([lessonId])
+  @@map("lesson_sections")
+}
+
 model Quiz {
   id          String   @id @default(uuid())
+  lessonId    String?  @unique @map("lesson_id")
   
   // Content
   title       String
@@ -207,7 +251,6 @@ model Quiz {
   difficulty  String   @default("medium")
   
   // Configuration
-  questions   Json
   totalQuestions Int   @map("total_questions")
   timeLimit   Int?     @map("time_limit")
   passingScore Int     @default(60) @map("passing_score")
@@ -229,12 +272,41 @@ model Quiz {
   updatedAt   DateTime @updatedAt @map("updated_at")
   
   // Relations
+  lesson      Lesson?  @relation(fields: [lessonId], references: [id])
+  questions   Question[]
   attempts    QuizAttempt[]
   
   @@index([slug])
   @@index([category])
   @@index([subject])
   @@map("quizzes")
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  quizId        String   @map("quiz_id")
+  questionText  String   @map("question_text")
+  questionType  String   @default("MULTIPLE_CHOICE") @map("question_type")
+  imageThumb    String?  @map("image_thumb")
+  explanation   String?
+  
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options       Option[]
+  
+  @@index([quizId])
+  @@map("questions")
+}
+
+model Option {
+  id          String   @id @default(uuid())
+  questionId  String   @map("question_id")
+  text        String
+  isCorrect   Boolean  @default(false) @map("is_correct")
+  
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  @@index([questionId])
+  @@map("options")
 }
 
 model QuizAttempt {
@@ -283,6 +355,7 @@ model Certificate {
   
   // Metadata
   issueDate   DateTime @default(now()) @map("issue_date")
+
   createdAt   DateTime @default(now()) @map("created_at")
   
   // Relations
@@ -363,6 +436,7 @@ model Leaderboard {
   // Metadata
   periodStart DateTime? @map("period_start")
   periodEnd   DateTime? @map("period_end")
+  createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   
   // Relations
@@ -381,7 +455,7 @@ model SeoPage {
   slug        String   @unique
   title       String
   metaDescription String? @map("meta_description")
-  keywords    String[]
+  keywords    Json?
   
   // Content
   content     String?

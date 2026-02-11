@@ -1,0 +1,141 @@
+{
+  "common": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "register": "Registrieren",
+    "getStarted": "Loslegen",
+    "startNow": "Jetzt starten",
+    "learnMore": "Mehr erfahren",
+    "dashboard": "Dashboard",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "close": "Schließen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "submit": "Absenden",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "finish": "Fertig",
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "success": "Erfolg"
+  },
+  "nav": {
+    "home": "Startseite",
+    "lessons": "Lektionen",
+    "typing": "Tipptest",
+    "codeTyping": "Code-Tippen",
+    "quiz": "Quiz",
+    "practice": "Übung",
+    "leaderboard": "Bestenliste",
+    "achievements": "Erfolge",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  },
+  "home": {
+    "heroTitle": "Meistere",
+    "heroTyping": "Tippen",
+    "heroAnd": "&",
+    "heroProgramming": "Programmieren",
+    "heroTagline": "an einem Ort",
+    "heroDescription": "Vom Anfänger zum Profi. Lerne Tippen, Code-Tippen, Programmieren und bestehe deine Prüfungen mit unserer spielerischen Lernplattform.",
+    "startTypingTest": "Tipptest starten",
+    "tryCodeTyping": "Code-Tippen ausprobieren",
+    "joinedLearners": "Schließe dich 10.000+ Lernenden weltweit an",
+    "stats": {
+      "activeUsers": "Aktive Nutzer",
+      "testsCompleted": "Abgeschlossene Tests",
+      "lessons": "Lektionen",
+      "avgWPMGain": "Durchschn. WPM-Zunahme"
+    },
+    "features": {
+      "title": "Alles, was du zum",
+      "succeed": "Erfolg brauchst",
+      "subtitle": "Ein komplettes Lern-Ökosystem, das dich vom Anfänger zum Jobfertigen macht",
+      "typing": {
+        "title": "Tippübungen",
+        "description": "Progressive Tipptests mit Echtzeit-WPM, Genauigkeitsverfolgung und Fehleranalyse"
+      },
+      "codeTyping": {
+        "title": "Code-Tippen",
+        "description": "Tippe echten Code in C, C++, Python, Java, JavaScript mit Syntaxhervorhebung"
+      },
+      "lessons": {
+        "title": "Programmier-Lektionen",
+        "description": "Strukturierter Lernpfad von Grundlagen bis Fortgeschritten mit praktischen Beispielen"
+      },
+      "quizzes": {
+        "title": "Quizze & Prüfungen",
+        "description": "SSC, HSC, BSc MCQs und Programmier-Quizze mit detaillierten Analysen"
+      },
+      "certificates": {
+        "title": "Zertifikate",
+        "description": "Verdiene teilbare Zertifikate, um deine Erfolge zu präsentieren"
+      },
+      "leaderboards": {
+        "title": "Bestenlisten",
+        "description": "Trete global und in Bangladesch an. Verfolge deinen Fortschritt mit Serien"
+      }
+    },
+    "journey": {
+      "title": "Deine Lernreise",
+      "subtitle": "Folge unserem bewährten Weg zur Meisterschaft",
+      "step1": {
+        "title": "Tippen beginnen",
+        "description": "Beginne mit einfachen Tipptests, um Geschwindigkeit und Genauigkeit aufzubauen"
+      },
+      "step2": {
+        "title": "Code-Tippen",
+        "description": "Gehe zum Tippen echter Code-Snippets in deiner Lieblingssprache über"
+      },
+      "step3": {
+        "title": "Programmieren lernen",
+        "description": "Schalte Lektionen frei und meistere Programmierkonzepte"
+      },
+      "step4": {
+        "title": "Zertifizieren lassen",
+        "description": "Verdiene Zertifikate und präsentiere deine Fähigkeiten"
+      }
+    },
+    "cta": {
+      "title": "Bereit, deine Reise zu beginnen?",
+      "subtitle": "Schließe dich Tausenden von Lernenden an, die täglich ihre Tipp- und Programmierfähigkeiten verbessern",
+      "button": "Kostenlos loslegen"
+    }
+  },
+  "lessons": {
+    "title": "Programmier-Lektionen",
+    "subtitle": "Meistere Programmierung von Grundlagen bis Fortgeschritten",
+    "allLessons": "Alle Lektionen",
+    "search": "Lektionen suchen...",
+    "categories": {
+      "all": "Alle",
+      "beginner": "Anfänger",
+      "intermediate": "Fortgeschritten",
+      "advanced": "Experte"
+    },
+    "difficulty": {
+      "beginner": "Anfänger",
+      "intermediate": "Fortgeschritten",
+      "advanced": "Experte"
+    },
+    "tabs": {
+      "learn": "Lernen",
+      "practice": "Code-Übung",
+      "quiz": "Quiz"
+    },
+    "quiz": {
+      "submitAnswers": "Antworten absenden",
+      "quizCompleted": "Quiz abgeschlossen!",
+      "score": "Punktzahl",
+      "retakeQuiz": "Quiz wiederholen"
+    }
+  },
+  "footer": {
+    "description": "Meistere Tippen und Programmieren mit unserer umfassenden Lernplattform.",
+    "features": "Funktionen",
+    "resources": "Ressourcen",
+    "company": "Unternehmen",
+    "copyright": "© 2026 EduVerse Hub. Alle Rechte vorbehalten."
+  }
+}

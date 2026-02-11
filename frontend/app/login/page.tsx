@@ -50,7 +50,7 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <Link href="/" className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', boxShadow: '0 0 30px rgba(14, 165, 233, 0.5)'}}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center logo-gradient">
             <span className="text-2xl font-bold text-white">E</span>
           </div>
           <span className="text-2xl font-display font-bold text-white">EduVerse Hub</span>

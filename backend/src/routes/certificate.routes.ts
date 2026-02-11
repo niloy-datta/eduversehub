@@ -1,7 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { authenticate } from '../middleware/auth.middleware';
-import { body, validationResult } from 'express-validator';
+import { body, param } from 'express-validator';
 import prisma from '../lib/prisma';
+import { handleValidationErrors } from '../middleware/validation.middleware';
 import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
@@ -30,13 +31,7 @@ router.post(
     body('description').optional().isString(),
     body('achievementData').optional(),
   ],
-  async (req: Request, res: Response): Promise<void> => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ status: 'error', errors: errors.array() });
-      return;
-    }
-
+  handleValidationErrors, async (req: Request, res: Response): Promise<void> => {
     const userId = req.user!.userId;
     const { type, title, description, achievementData } = req.body;
 
@@ -66,41 +61,55 @@ router.post(
   }
 );
 
-router.get('/:shareToken', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const certificate = await prisma.certificate.findUnique({ where: { shareToken: req.params.shareToken } });
-    if (!certificate) {
-      res.status(404).json({ status: 'error', message: 'Certificate not found' });
-      return;
+router.get(
+  '/:shareToken',
+  [param('shareToken').isUUID().withMessage('Invalid share token')],
+  handleValidationErrors, async (req: Request, res: Response): Promise<void> => {
+    try {
+      const certificate = await prisma.certificate.findUnique({ where: { shareToken: req.params.shareToken as string } });
+      if (!certificate) {
+        res.status(404).json({ status: 'error', message: 'Certificate not found' });
+        return;
+      }
+
+      res.status(200).json({ status: 'success', data: { certificate } });
+    } catch (error) {
+      console.error('Get certificate by token error', error);
+      res.status(500).json({ status: 'error', message: 'Failed to fetch certificate' });
     }
-
-    res.status(200).json({ status: 'success', data: { certificate } });
-  } catch (error) {
-    console.error('Get certificate by token error', error);
-    res.status(500).json({ status: 'error', message: 'Failed to fetch certificate' });
   }
-});
+);
 
-router.get('/:id/download', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const certificate = await prisma.certificate.findUnique({ where: { id: req.params.id } });
-    if (!certificate) {
-      res.status(404).json({ status: 'error', message: 'Certificate not found' });
-      return;
+router.get(
+  '/:id/download',
+  authenticate,
+  [param('id').isUUID().withMessage('Invalid certificate ID')],
+  handleValidationErrors, async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = req.user!.userId;
+      const certificate = await prisma.certificate.findFirst({
+        where: { id: req.params.id as string, userId },
+      });
+
+      // If not found for this user, it's either not theirs or doesn't exist
+      if (!certificate) {
+        res.status(404).json({ status: 'error', message: 'Certificate not found' });
+        return;
+      }
+
+      // Placeholder: In real implementation, serve a file. For now return metadata.
+      res.status(200).json({
+        status: 'success',
+        data: {
+          certificate,
+          downloadUrl: certificate.certificateUrl || null,
+        },
+      });
+    } catch (error) {
+      console.error('Download certificate error', error);
+      res.status(500).json({ status: 'error', message: 'Failed to download certificate' });
     }
-
-    // Placeholder: In real implementation, serve a file. For now return metadata.
-    res.status(200).json({
-      status: 'success',
-      data: {
-        certificate,
-        downloadUrl: certificate.certificateUrl || null,
-      },
-    });
-  } catch (error) {
-    console.error('Download certificate error', error);
-    res.status(500).json({ status: 'error', message: 'Failed to download certificate' });
   }
-});
+);
 
 export default router;

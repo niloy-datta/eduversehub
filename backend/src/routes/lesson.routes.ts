@@ -1,7 +1,9 @@
 import { Router, Request, Response } from 'express';
-import { authenticate } from '../middleware/auth.middleware';
-import { query, body, validationResult } from 'express-validator';
+import { authenticate, optionalAuthenticate } from '../middleware/auth.middleware';
+import { query, body, param } from 'express-validator';
 import prisma from '../lib/prisma';
+import { handleValidationErrors } from '../middleware/validation.middleware';
+import { checkAndAwardBadges } from '../lib/badges';
 
 const router = Router();
 
@@ -12,7 +14,7 @@ router.get(
     query('difficulty').optional().isString(),
     query('language').optional().isString(),
   ],
-  async (req: Request, res: Response): Promise<void> => {
+  handleValidationErrors, async (req: Request, res: Response): Promise<void> => {
     const { category, difficulty, language } = req.query as Record<string, string | undefined>;
 
     try {
@@ -45,64 +47,97 @@ router.get(
   }
 );
 
-router.get('/:slug', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const lesson = await prisma.lesson.findUnique({
-      where: { slug: req.params.slug },
-      include: { progress: true },
-    });
+router.get(
+  '/:slug',
+  optionalAuthenticate,
+  [param('slug').isString().notEmpty().withMessage('Slug must be a valid string')],
+  handleValidationErrors, async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = req.user?.userId;
 
-    if (!lesson) {
-      res.status(404).json({ status: 'error', message: 'Lesson not found' });
-      return;
+      const lesson = await prisma.lesson.findUnique({
+        where: { slug: req.params.slug as string },
+        include: {
+          // Only include progress for the currently authenticated user
+          progress: userId
+            ? {
+                where: {
+                  userId: userId,
+                },
+              }
+            : false,
+        },
+      });
+
+      if (!lesson) {
+        res.status(404).json({ status: 'error', message: 'Lesson not found' });
+        return;
+      }
+
+      res.status(200).json({ status: 'success', data: { lesson } });
+    } catch (error) {
+      console.error('Get lesson error', error);
+      res.status(500).json({ status: 'error', message: 'Failed to fetch lesson' });
     }
-
-    res.status(200).json({ status: 'success', data: { lesson } });
-  } catch (error) {
-    console.error('Get lesson error', error);
-    res.status(500).json({ status: 'error', message: 'Failed to fetch lesson' });
   }
-});
+);
 
 router.post(
   '/:id/progress',
   authenticate,
   [
+    param('id').isUUID().withMessage('Invalid lesson ID'),
     body('status').optional().isString(),
     body('progressPercentage').optional().isInt({ min: 0, max: 100 }).toInt(),
     body('timeSpent').optional().isInt({ min: 0 }).toInt(),
   ],
-  async (req: Request, res: Response): Promise<void> => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ status: 'error', errors: errors.array() });
-      return;
-    }
-
+  handleValidationErrors, async (req: Request, res: Response): Promise<void> => {
     const userId = req.user!.userId;
     const { id } = req.params;
     const { status, progressPercentage, timeSpent } = req.body;
 
     try {
-      const progress = await prisma.lessonProgress.upsert({
-        where: { userId_lessonId: { userId, lessonId: id } },
-        update: {
-          ...(status && { status }),
-          ...(progressPercentage !== undefined && { progressPercentage }),
-          ...(timeSpent !== undefined && { timeSpent: { increment: timeSpent } }),
-          lastAccessed: new Date(),
-          ...(status === 'completed' && { completedAt: new Date() }),
-        },
-        create: {
-          userId,
-          lessonId: id,
-          status: status || 'in_progress',
-          progressPercentage: progressPercentage ?? 0,
-          timeSpent: timeSpent ?? 0,
-          startedAt: new Date(),
-          ...(status === 'completed' && { completedAt: new Date() }),
-        },
-        include: { lesson: true },
+      const { progress } = await prisma.$transaction(async (tx) => {
+        const existingProgress = await tx.lessonProgress.findUnique({
+          where: { userId_lessonId: { userId, lessonId: id as string } },
+        });
+
+        const wasCompleted = existingProgress?.status === 'completed';
+
+        const progress = await tx.lessonProgress.upsert({
+          where: { userId_lessonId: { userId, lessonId: id as string } },
+          update: {
+            ...(status && { status }),
+            ...(progressPercentage !== undefined && { progressPercentage }),
+            ...(timeSpent !== undefined && { timeSpent: { increment: timeSpent } }),
+            lastAccessed: new Date(),
+            ...(status === 'completed' && !wasCompleted && { completedAt: new Date() }),
+          },
+          create: {
+            userId,
+            lessonId: id as string,
+            status: status || 'in_progress',
+            progressPercentage: progressPercentage ?? 0,
+            timeSpent: timeSpent ?? 0,
+            startedAt: new Date(),
+            ...(status === 'completed' && { completedAt: new Date() }),
+          },
+          include: { lesson: true },
+        });
+
+        // Award points for completing the lesson for the first time
+        if (status === 'completed' && !wasCompleted) {
+          const pointsForLesson = progress.lesson.pointsAwarded ?? 50; // Default to 50 points
+          await tx.user.update({
+            where: { id: userId },
+            data: { totalPoints: { increment: pointsForLesson } },
+          });
+
+          // Check for new badges after completing a lesson
+          await checkAndAwardBadges(userId, tx);
+        }
+
+        return { progress };
       });
 
       res.status(200).json({
